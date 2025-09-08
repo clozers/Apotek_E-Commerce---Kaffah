@@ -112,8 +112,8 @@
                                                 <p style="margin: 5px 0;"><strong>Di Terima Pada Pukul :</strong>
                                                     {{ $order->updated_at->format('H:i') }}</p>
                                             @endif
-                                            <p style="margin: 5px 0;"><strong>Tanggal:</strong>
-                                                {{ $order->created_at->format('d M Y H:i') }}</p>
+                                            <p style="margin: 5px 0;"><strong>Tanggal Pesanan Di buat:</strong>
+                                                {{ $order->created_at->format('d M Y') }}</p>
                                             <p style="margin: 5px 0;"><strong>Total Bayar:</strong> Rp.
                                                 {{ number_format($order->total_harga, 0, ',', '.') }}
                                             </p>

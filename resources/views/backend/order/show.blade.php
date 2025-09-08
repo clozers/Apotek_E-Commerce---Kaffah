@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 text-right">
                             @if (!empty($order->layanan_pengiriman))
-                                <h5>Ongkos Kirim</h5>
+                                <h5>Ongkos Kirim</h5>   
                             @endif
 
                             <address>
@@ -106,13 +106,13 @@
                                         <tr>
                                             <td>Ongkos Kirim</td>
                                             <td colspan="2">
-                                                Rp. {{ number_format($order->biaya_ongkir, 0, ',', '.') }}
+                                                Rp. {{ number_format($order->ongkir, 0, ',', '.') }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>TOTAL BAYAR</th>
                                             <th colspan="2" class="total">Rp.
-                                                {{ number_format($totalHarga + $order->biaya_ongkir, 0, ',', '.') }}</th>
+                                                {{ number_format($order->total_harga, 0, ',', '.') }}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

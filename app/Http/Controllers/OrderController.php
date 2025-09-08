@@ -508,6 +508,7 @@ class OrderController extends Controller
                 'nm_pelanggan'     => $user->name,
                 'tlp_pelanggan'    => $user->no_tlp ?? '-',
                 'alamat_pelanggan' => $user->alamat ?? '-',
+                'subtotal'         => $order->subtotal,
                 'ttl_trkasir'      => $order->total_harga,
                 'id_carabayar'     => $order->tipe_pembayaran === 'COD' ? 1 : 2,
                 'jenistx'          => 3,

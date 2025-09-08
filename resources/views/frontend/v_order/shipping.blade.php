@@ -1,5 +1,12 @@
 @extends('frontend.layouts.index')
 @section('content')
+    <style>
+        .alert ul {
+            list-style-type: disc !important;
+            margin-left: 20px !important;
+            padding-left: 20px !important;
+        }
+    </style>
     <div class="section">
         <div class="container">
             <div class="row">
