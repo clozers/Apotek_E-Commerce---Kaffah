@@ -82,7 +82,7 @@
                                             <th class="empty" colspan="3"></th>
                                             <th>TOTAL BAYAR</th>
                                             <th colspan="2" class="total">
-                                                Rp. {{ number_format($totalHarga, 0, ',', '.') }}
+                                                Rp. {{ number_format($order->total_harga, 0, ',', '.') }}
                                             </th>
                                         </tr>
                                     </tfoot>
