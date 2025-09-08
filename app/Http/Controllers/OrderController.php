@@ -64,7 +64,7 @@ class OrderController extends Controller
         }
 
         // Tambahkan harga final ke total
-        $order->total_harga += $hargaFinal;
+        $order->subtotal += $hargaFinal;
         $order->save();
 
         // Cek redirect
@@ -98,10 +98,10 @@ class OrderController extends Controller
         if ($order) {
             $orderItem = OrderItem::where('order_id', $order->id)->where('produk_id', $id)->first();
             if ($orderItem) {
-                $order->total_harga -= $orderItem->harga * $orderItem->quantity;
+                $order->subtotal -= $orderItem->harga * $orderItem->quantity;
                 $orderItem->delete();
 
-                if ($order->total_harga <= 0) {
+                if ($order->subtotal <= 0) {
                     $order->delete();
                 } else {
                     $order->save();
@@ -146,12 +146,12 @@ class OrderController extends Controller
         ]);
 
         // Update total harga
-        $order->total_harga -= $orderItem->harga * $orderItem->quantity;
+        $order->subtotal -= $orderItem->harga * $orderItem->quantity;
 
         $orderItem->quantity = $quantity;
         $orderItem->save();
 
-        $order->total_harga += $orderItem->harga * $orderItem->quantity;
+        $order->subtotal += $orderItem->harga * $orderItem->quantity;
         $order->save();
 
         return redirect()->route('order.cart')->with('success', 'Keranjang berhasil diperbarui');
@@ -177,7 +177,6 @@ class OrderController extends Controller
             ->where('status', 'pending')
             ->first();
 
-
         $origin = session('origin');        // Kode kota asal
         $originName = session('originName'); // Nama kota asal
 
@@ -189,13 +188,29 @@ class OrderController extends Controller
         $order->load('orderItems.produk');
 
         // Hitung total harga produk
-        $totalHarga = 0;
+        $subtotal = 0;
         foreach ($order->orderItems as $item) {
-            $totalHarga += $item->harga * $item->quantity;
+            $subtotal += $item->harga * $item->quantity;
         }
 
+        // Hitung ongkir
+        $ongkir = $subtotal >= 25000 ? 0 : 5000;
+        // Jika tipe layanan ambil di toko, ongkir = 0. Kalau bukan, pakai aturan subtotal.
+        if ($order->tipe_layanan === 'Ambil di toko' || $order->tipe_layanan === 'Ambil ditempat') {
+            $ongkir = 0;
+        } else {
+            $ongkir = $subtotal >= 25000 ? 0 : 5000;
+        }
+
+
         // Tambahkan biaya ongkir ke total harga
-        $grossAmount = $totalHarga + $order->biaya_ongkir;
+        $totalHarga = $subtotal + $ongkir;
+
+        // Simpan ke order
+        $order->ongkir = $ongkir;
+        $order->total_harga = $totalHarga;
+        $order->save();
+
 
         // Midtrans configuration
         Config::$serverKey = config('midtrans.server_key');
@@ -209,7 +224,7 @@ class OrderController extends Controller
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => (int) $grossAmount, // Pastikan gross_amount adalah integer
+                'gross_amount' => (int) $totalHarga, // Pastikan gross_amount adalah integer
             ],
             'customer_details' => [
                 'first_name' => $customer->nama,
@@ -229,6 +244,7 @@ class OrderController extends Controller
             'origin' => $origin,
             'originName' => $originName,
             'snapToken' => $snapToken,
+            'totalHarga' => $totalHarga,
         ]);
     }
 
@@ -261,7 +277,7 @@ class OrderController extends Controller
     {
         $customer = User::where('id', Auth::id())->first();;;
         // $orders = Order::where('customer_id', $customer->id)->where('status', 'completed')->get();
-        $statuses = ['Paid', 'Kirim', 'Selesai', 'Proses COD', 'Dibatalkan'];
+        $statuses = ['Paid', 'Kirim', 'Barang Siap Diambil', 'Selesai', 'Proses COD', 'Dibatalkan'];
         $orders = Order::where('user_id', $customer->id)
             ->whereIn('status', $statuses)
             ->orderBy('id', 'desc')
@@ -470,7 +486,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
 
         $validatedData = $request->validate([
-            'status' => 'required|in:Paid,Kirim,Selesai,Barang Siap Diambil',
+            'status' => 'required|in:Paid,Kirim,Selesai,Barang Siap Diambil,Dibatalkan,Proses COD',
         ]);
 
         $oldStatus = $order->status;

@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
                         $cartCount = $order->orderItems()->sum('quantity');
 
                         // Total harga
-                        $cartTotal = $order->total_harga;
+                        $cartTotal = $order->subtotal;
                     }
                 }
             }

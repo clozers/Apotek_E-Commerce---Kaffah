@@ -35,6 +35,7 @@ class CompanySettingController extends Controller
             'deskripsi'       => 'nullable|string',
             'logo'            => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'alamat'          => 'nullable|string',
+            'catatan'         => 'nullable|string',
             'telepon'         => 'nullable|string|max:14',
             'peta_lokasi'     => 'nullable|string',
         ]);
@@ -64,6 +65,7 @@ class CompanySettingController extends Controller
             'deskripsi'       => 'nullable|string',
             'logo'            => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'alamat'          => 'nullable|string',
+            'catatan'         => 'nullable|string',
             'telepon'         => 'nullable|string|max:14',
             'peta_lokasi'     => 'nullable|string',
         ]);

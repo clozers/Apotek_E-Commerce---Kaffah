@@ -14,6 +14,8 @@ class Order extends Model
         'status',
         'tipe_layanan',
         'layanan_pengiriman',
+        'ongkir',
+        'subtotal',
         'tipe_pembayaran',
         'total_berat',
         'alamat',

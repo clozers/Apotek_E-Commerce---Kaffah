@@ -16,6 +16,7 @@ class CompanySetting extends Model
         'deskripsi',
         'logo',
         'alamat',
+        'catatan',
         'telepon',
         'peta_lokasi',
     ];
