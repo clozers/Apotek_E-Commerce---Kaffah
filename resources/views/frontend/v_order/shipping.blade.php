@@ -37,7 +37,7 @@
 
                                 {{-- Tipe Layanan Pengiriman --}}
                                 <div class="mb-3">
-                                    <label class="form-label">Tipe Layanan Pengiriman :
+                                    {{-- <label class="form-label">Tipe Layanan Pengiriman :
                                         <strong>{{ $jenisLayanan }}</strong></label>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="layanan_ongkir" id="reguler"
@@ -52,15 +52,15 @@
                                         <label class="form-check-label" for="instan">
                                             Instan (langsung dikirim setelah pembayaran)
                                         </label>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- Note --}}
                                     <div class="alert alert-info mt-2" role="alert">
                                         <strong>Catatan :</strong> {!! $companySetting->catatan ?? 'Tidak ada catatan pengiriman dari perusahaan.' !!}
                                     </div>
 
-                                    {{-- Kirim data tersembunyi tetap ke controller --}}
-                                    <input type="hidden" name="layanan_pengiriman" value="{{ $jenisLayanan }}">
+                                    {{-- Kirim data tersembunyi tetap ke controller
+                                    <input type="hidden" name="layanan_pengiriman" value="{{ $jenisLayanan }}"> --}}
                                 </div>
 
                                 <br><br>

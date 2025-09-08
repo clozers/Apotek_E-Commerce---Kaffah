@@ -166,8 +166,8 @@ class OrderController extends Controller
         if (!$order || $order->orderItems->count() == 0) {
             return redirect()->route('order.cart')->with('error', 'Keranjang belanja kosong.');
         }
-        $jenisLayanan = $order->total_harga >= 50000 ? 'Instan' : 'Reguler';
-        return view('frontend.v_order.shipping', compact('order', 'customer', 'jenisLayanan'));
+        // $jenisLayanan = $order->total_harga >= 50000 ? 'Instan' : 'Reguler';
+        return view('frontend.v_order.shipping', compact('order', 'customer',));
     }
 
     public function selectPayment()
