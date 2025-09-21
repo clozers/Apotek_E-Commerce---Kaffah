@@ -29,6 +29,10 @@
                             <th>Alamat</th>
                             <td>{{ $customer->alamat ?? '-' }}</td>
                         </tr>
+                        <tr>
+                            <th>Tanggal Daftar</th>
+                            <td>{{ $customer->created_at ?? '-' }}</td>
+                        </tr>
                     </table>
                 </div>
             </div>

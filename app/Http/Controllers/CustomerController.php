@@ -27,10 +27,16 @@ class CustomerController extends Controller
             'id',
             'name',
             'email',
+            'created_at',
         ]);
 
         return DataTables::of($query)
             ->addIndexColumn()
+            ->editColumn('created_at', function ($row) {
+                // Format tanggal sesuai kebutuhan
+                return \Carbon\Carbon::parse($row->created_at)->format('Y-m-d H:i:s');
+                // kalau cuma tanggal: ->format('Y-m-d')
+            })
             ->addColumn('aksi', function ($row) {
                 $btn = '<div class="dropdown position-relative d-inline-block">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
@@ -47,6 +53,7 @@ class CustomerController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
 
     public function show(User $customer)
     {

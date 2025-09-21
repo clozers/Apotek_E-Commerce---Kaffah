@@ -20,6 +20,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Email</th>
+                            <th>Tanggal Daftar</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -48,6 +49,7 @@
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
+                { data: 'created_at', name: 'created_at' },
                 { data: 'aksi', name: 'aksi', orderable: false, searchable: false },
             ]
         });
