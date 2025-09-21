@@ -1,8 +1,8 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Pesanan Selesai')
+@section('title', 'Pesanan Proses')
 
-@section('header', 'Halaman Data Pesanan Selesai')
+@section('header', 'Halaman Data Pesanan Proses')
 
 @section('content')
 <section class="content">
