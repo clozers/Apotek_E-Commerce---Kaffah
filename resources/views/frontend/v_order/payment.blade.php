@@ -37,7 +37,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $totalHarga = 0; @endphp
+                                        @php
+                                            $totalHarga = 0;
+                                            $potonganDiskon = ($order->subtotal * $order->diskon) / 100;
+                                        @endphp
                                         @foreach ($order->orderItems as $item)
                                             @php $totalHarga += $item->harga * $item->quantity; @endphp
                                             <tr>
@@ -69,6 +72,14 @@
                                             <th>SUBTOTAL</th>
                                             <th colspan="2" class="sub-total">
                                                 Rp. {{ number_format($totalHarga, 0, ',', '.') }}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th class="empty" colspan="3"></th>
+                                            <th>DISKON</th>
+                                            <th colspan="2" class="sub-total text-danger">
+                                                Rp. {{ number_format($potonganDiskon, 0, ',', '.') }}
+                                                ({{ $order->diskon }}%)
                                             </th>
                                         </tr>
                                         <tr>
@@ -120,6 +131,13 @@
                                         <span style="font-size: 16px; font-weight: bold;">Subtotal</span>
                                         <span style="font-size: 18px; font-weight: bold; color: #d10024;">
                                             Rp. {{ number_format($totalHarga, 0, ',', '.') }}
+                                        </span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-size: 16px; font-weight: bold;">Diskon</span>
+                                        <span style="font-size: 18px; font-weight: bold; color: #d10024;">
+                                            Rp. {{ number_format($potonganDiskon, 0, ',', '.') }}
+                                            ({{ $order->diskon }}%)
                                         </span>
                                     </div>
                                     <div style="display: flex; justify-content: space-between; align-items: center;">

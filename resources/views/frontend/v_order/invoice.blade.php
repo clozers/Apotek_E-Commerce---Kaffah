@@ -478,10 +478,19 @@
             <div class="col-md-5">
                 <table class="table table-borderless table-sm text-end">
                     <tbody>
+                        @php
+                            $potonganDiskon = ($order->subtotal * $order->diskon) / 100;
+                        @endphp
                         <tr class="total-row">
                             <td class="pe-0 fw-bold">SubTotal</td>
                             <td class="ps-0 total-value">Rp.
                                 {{ number_format($subtotal, 0, ',', '.') }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="pe-0 fw-bold">Diskon</td>
+                            <td class="ps-0 total-value">
+                                Rp. {{ number_format($potonganDiskon, 0, ',', '.') }}
+                                ({{ $order->diskon }}%)</td>
                         </tr>
                         <tr class="total-row">
                             <td class="pe-0 fw-bold">Ongkir</td>
@@ -491,7 +500,7 @@
                         <tr class="total-row">
                             <td class="pe-0 fw-bold">Total</td>
                             <td class="ps-0 total-value">Rp.
-                                {{ number_format($subtotal + $order->ongkir, 0, ',', '.') }}</td>
+                                {{ number_format($order->total_harga, 0, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 </table>

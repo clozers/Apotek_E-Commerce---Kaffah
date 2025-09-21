@@ -15,6 +15,7 @@ class Order extends Model
         'tipe_layanan',
         'layanan_pengiriman',
         'ongkir',
+        'diskon',
         'subtotal',
         'tipe_pembayaran',
         'total_berat',

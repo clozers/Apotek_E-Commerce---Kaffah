@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 text-right">
                             @if (!empty($order->layanan_pengiriman))
-                                <h5>Ongkos Kirim</h5>   
+                                <h5>Ongkos Kirim</h5>
                             @endif
 
                             <address>
@@ -66,8 +66,8 @@
                                             @endphp
                                             <tr>
                                                 <td align="center" style="width: 200px;">
-                                                    <img src="{{ asset('storage/' . $item->produk->image) }}"
-                                                        alt="" style="width: 100px; height: auto;">
+                                                    <img src="{{ asset('storage/' . $item->produk->image) }}" alt=""
+                                                        style="width: 100px; height: auto;">
                                                 </td>
 
                                                 <td class="details">
@@ -98,10 +98,19 @@
                                         @endforeach
                                     </tbody>
                                     <tfoot>
+                                        @php
+                                            $potonganDiskon = ($order->subtotal * $order->diskon) / 100;
+                                        @endphp
                                         <tr>
-                                            <th class="empty" rowspan="3" colspan="3"></th>
+                                            <th class="empty" rowspan="4" colspan="3"></th>
                                             <td>Subtotal</td>
                                             <td colspan="2">Rp. {{ number_format($totalHarga, 0, ',', '.') }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Diskon</td>
+                                            <td colspan="2">
+                                                Rp. {{ number_format($potonganDiskon, 0, ',', '.') }}
+                                                ({{ $order->diskon }}%)</ </td>
                                         </tr>
                                         <tr>
                                             <td>Ongkos Kirim</td>

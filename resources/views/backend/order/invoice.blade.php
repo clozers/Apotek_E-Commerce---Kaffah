@@ -412,7 +412,8 @@
             <div class="details-col">
                 <p class="fw-bold mb-2 text-primary">Nota Pesanan untuk</p>
                 <p class="mb-1"><strong class="me-2">Nama Pembeli:</strong>{{ $order->user->name }}</p>
-                <p class="mb-1"><strong class="me-2">No. Handphone Pembeli:</strong>{{ $order->user->no_tlp ?? 'N/A' }}
+                <p class="mb-1"><strong class="me-2">No. Handphone
+                        Pembeli:</strong>{{ $order->user->no_tlp ?? 'N/A' }}
                 </p>
                 <p class="mb-1"><strong class="me-2">Alamat Pembeli:</strong>{{ $order->user->alamat ?? 'N/A' }}</p>
             </div>
@@ -421,12 +422,13 @@
                 <p class="mb-1"><strong class="me-2">No. Pesanan:</strong>{{ $order->kode_pesanan }}</p>
                 <p class="mb-1"><strong class="me-2">Tanggal transaksi:</strong>
                     {{ $order->created_at->format('d/m/Y') }}</p>
-                <p class="mb-1"><strong class="me-2">Layanan:</strong><b>{{ $order->tipe_layanan}}</b></p>
+                <p class="mb-1"><strong class="me-2">Layanan:</strong><b>{{ $order->tipe_layanan }}</b></p>
                 @if ($order->tipe_layanan == 'Ambil di toko')
-                <p class="mb-1"><strong class="me-2">Pengambilan:</strong>{{ $order->layanan_pengiriman ?? 'N/A' }}</p>
-                @elseif ($order->tipe_layanan == 'Dikirim ke alamat' )
-                <p class="mb-1"><strong class="me-2">Kurir:</strong>{{ $order->layanan_pengiriman ?? 'N/A' }}
-                </p>
+                    <p class="mb-1"><strong
+                            class="me-2">Pengambilan:</strong>{{ $order->layanan_pengiriman ?? 'N/A' }}</p>
+                @elseif ($order->tipe_layanan == 'Dikirim ke alamat')
+                    <p class="mb-1"><strong class="me-2">Kurir:</strong>{{ $order->layanan_pengiriman ?? 'N/A' }}
+                    </p>
                 @endif
 
             </div>
@@ -445,23 +447,23 @@
                 </thead>
                 <tbody>
                     @php
-                    $subtotal = 0;
+                        $subtotal = 0;
                     @endphp
                     @foreach ($order->orderItems as $item)
-                    @php
-                    $lineTotal = $item->harga * $item->quantity;
-                    $subtotal += $lineTotal;
-                    @endphp
-                    <tr>
-                        <td>{{ $item->produk->nm_barang }}</td>
-                        <td>{{ $item->produk->category->name ?? 'Description of product or service' }}</td>
-                        <td class="text-center">{{ $item->quantity }}</td>
-                        <td class="text-end">Rp. {{ number_format($item->harga, 0, ',', '.') }}</td>
-                        <td class="text-end">Rp. {{ number_format($lineTotal, 0, ',', '.') }}</td>
-                    </tr>
+                        @php
+                            $lineTotal = $item->harga * $item->quantity;
+                            $subtotal += $lineTotal;
+                        @endphp
+                        <tr>
+                            <td>{{ $item->produk->nm_barang }}</td>
+                            <td>{{ $item->produk->category->name ?? 'Description of product or service' }}</td>
+                            <td class="text-center">{{ $item->quantity }}</td>
+                            <td class="text-end">Rp. {{ number_format($item->harga, 0, ',', '.') }}</td>
+                            <td class="text-end">Rp. {{ number_format($lineTotal, 0, ',', '.') }}</td>
+                        </tr>
                     @endforeach
                     @for ($i = 0; $i < 5 - count($order->orderItems); $i++)
-                        @endfor
+                    @endfor
                 </tbody>
             </table>
         </div>
@@ -476,10 +478,29 @@
             <div class="col-md-5">
                 <table class="table table-borderless table-sm text-end">
                     <tbody>
+                        @php
+                            $potonganDiskon = ($order->subtotal * $order->diskon) / 100;
+                        @endphp
+                        <tr class="total-row">
+                            <td class="pe-0 fw-bold">SubTotal</td>
+                            <td class="ps-0 total-value">Rp.
+                                {{ number_format($subtotal, 0, ',', '.') }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="pe-0 fw-bold">Diskon</td>
+                            <td class="ps-0 total-value">
+                                Rp. {{ number_format($potonganDiskon, 0, ',', '.') }}
+                                ({{ $order->diskon }}%)</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="pe-0 fw-bold">Ongkir</td>
+                            <td class="ps-0 total-value">Rp.
+                                {{ number_format($order->ongkir, 0, ',', '.') }}</td>
+                        </tr>
                         <tr class="total-row">
                             <td class="pe-0 fw-bold">Total</td>
                             <td class="ps-0 total-value">Rp.
-                                {{ number_format($subtotal + $order->biaya_ongkir, 0, ',', '.') }}</td>
+                                {{ number_format($order->total_harga, 0, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 </table>
