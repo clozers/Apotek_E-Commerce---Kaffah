@@ -27,32 +27,43 @@ class CustomerController extends Controller
             'id',
             'name',
             'email',
+            'no_tlp', // pastikan ada field nomor WA/telepon
             'created_at',
         ]);
 
         return DataTables::of($query)
             ->addIndexColumn()
             ->editColumn('created_at', function ($row) {
-                // Format tanggal sesuai kebutuhan
                 return \Carbon\Carbon::parse($row->created_at)->format('Y-m-d H:i:s');
-                // kalau cuma tanggal: ->format('Y-m-d')
             })
             ->addColumn('aksi', function ($row) {
                 $btn = '<div class="dropdown position-relative d-inline-block">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
                     Action
                 </button>
-                <div class="dropdown-menu center-below p-2 shadow" style="min-width: 140px;">
+                <div class="dropdown-menu center-below p-2 shadow" style="min-width: 160px;">
                     <a href="' . route('customer.show', $row->id) . '" class="btn btn-info btn-sm w-100 mb-1">
                         <i class="fas fa-eye"></i> Detail
-                    </a>
-                </div>
-            </div>';
+                    </a>';
+
+                // jika ada nomor telepon
+                if (!empty($row->no_tlp)) {
+                    // ubah 08xxx menjadi 628xxx
+                    $phone = preg_replace('/^0/', '62', $row->no_tlp);
+
+                    $btn .= '<a href="https://wa.me/' . $phone . '" target="_blank" class="btn btn-success btn-sm w-100">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>';
+                }
+
+                $btn .= '</div></div>';
                 return $btn;
             })
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
+
 
 
     public function show(User $customer)

@@ -415,27 +415,41 @@ class OrderController extends Controller
                 ->addColumn('pelanggan', fn($row) => $row->user->name ?? '-')
                 ->addColumn('aksi', function ($row) {
                     $btn = '<div class="dropdown position-relative d-inline-block">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                            Action
+                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        Action
+                    </button>
+                    <div class="dropdown-menu center-below p-2 shadow" style="min-width: 160px;">
+                        <a href="' . route('pesanan.proses.detail', $row->id) . '" class="btn btn-primary btn-sm w-100 mb-1">
+                             Update Pesanan
+                        </a>
+                        <button onclick=\'batalkanPesanan("' . route('pesanan.batalkan', $row->id) . '")\' class="btn btn-danger btn-sm w-100 mb-1">
+                            Batalkan Pesanan
                         </button>
-                        <div class="dropdown-menu center-below p-2 shadow" style="min-width: 140px;">
-                            <a href="' . route('pesanan.proses.detail', $row->id) . '" class="btn btn-primary btn-sm w-100 mb-1">
-                                 Update Pesanan
-                            </a>
-                            <button onclick=\'batalkanPesanan("' . route('pesanan.batalkan', $row->id) . '")\' class="btn btn-danger btn-sm w-100 mb-1">
-                                Batalkan Pesanan
-                            </button>
-                            <a href=" ' . route('invoice.backend', $row->id) . ' " target="_blank" class="btn btn-success btn-sm w-100">
-                                Cetak Invoice
-                            </a>
-                        </div>
-                    </div>';
+                        <a href="' . route('invoice.backend', $row->id) . '" target="_blank" class="btn btn-success btn-sm w-100 mb-1">
+                            Cetak Invoice
+                        </a>';
+
+                    // Tambahkan tombol WhatsApp
+                    if (!empty($row->user?->no_tlp)) {
+                        // ubah 08xxx menjadi 628xxx
+                        $phone = preg_replace('/^0/', '62', $row->user->no_tlp);
+
+                        // bisa ditambah template pesan otomatis
+                        $message = urlencode("Halo {$row->user->name}, pesanan Anda dengan ID #{$row->id} sedang diproses.");
+
+                        $btn .= '<a href="https://wa.me/' . $phone . '?text=' . $message . '" target="_blank" class="btn btn-outline-success btn-sm w-100 mt-1">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                             </a>';
+                    }
+
+                    $btn .= '</div></div>';
                     return $btn;
                 })
                 ->rawColumns(['aksi'])
                 ->make(true);
         }
     }
+
 
     public function finishedOrders()
     {
