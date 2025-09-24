@@ -42,8 +42,7 @@ class ProductController extends Controller
             ->where(function ($query) use ($keywords) {
                 foreach ($keywords as $word) {
                     $query->orWhere('nm_barang', 'like', "%{$word}%")
-                        ->orWhere('kd_barang', 'like', "%{$word}%")
-                        ->orWhere('indikasi', 'like', "%{$word}%");
+                        ->orWhere('kd_barang', 'like', "%{$word}%");
                 }
             })
             ->paginate(8);

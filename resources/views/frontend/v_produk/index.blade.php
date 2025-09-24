@@ -49,8 +49,7 @@
                                                     Detail</button>
                                             </a>
                                             <img src="{{ $item->image ? asset('storage/' . $item->image) : asset('images/default.png') }}"
-                                                alt=""
-                                                >
+                                                alt="">
 
                                         </div>
 
@@ -132,8 +131,7 @@
                         </h4>
                     </div>
                     <div class="modal-body" style="font-size: 16px; line-height: 1.6;">
-                        <p>Anda akan memesan obat {{ $item->nm_barang }}<strong id="modalItemName"
-                                style="color: #d9534f;"></strong>, yang
+                        <p>Anda akan memesan obat<strong id="modalItemName" style="color: #d9534f;"></strong>, yang
                             tergolong Obat Keras</p>
                         <p>Obat ini memerlukan resep dokter untuk pembelian.</p>
                         <p

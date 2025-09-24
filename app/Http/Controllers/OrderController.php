@@ -193,18 +193,17 @@ class OrderController extends Controller
             $subtotal += $item->harga * $item->quantity;
         }
 
-        // Jika ambil di toko, diskon 5% dari subtotal
+        //diskon 5% persen
         $diskon = 0;
         $masaPromo = 25; // atur masa promo (hari) di sini
         $persenDiskon = 5;
 
-        if ($order->tipe_layanan === 'Ambil di toko') {
-            $selisihHari = \Carbon\Carbon::parse($order->created_at)->diffInDays(now());
+        $selisihHari = \Carbon\Carbon::parse($order->created_at)->diffInDays(now());
 
-            if ($selisihHari <= $masaPromo) {
-                $diskon = $persenDiskon;
-            }
+        if ($selisihHari <= $masaPromo) {
+            $diskon = $persenDiskon;
         }
+
 
         // Hitung ongkir
         $ongkir = $subtotal >= 25000 ? 0 : 5000;
