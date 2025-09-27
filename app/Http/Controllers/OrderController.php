@@ -517,9 +517,11 @@ class OrderController extends Controller
         ]);
 
         $oldStatus = $order->status;
+        $tglharini = Carbon::now()->format('Y-m-d');
 
         $activeShift = DB::table('waktukerja')
             ->where('status', 'ON')
+            ->where('tanggal', $tglharini)
             ->orderBy('id_shift', 'desc')
             ->first();
 
